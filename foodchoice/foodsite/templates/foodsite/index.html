@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% include "foodsite/head.html" %}
+<head>
+<body>
+  {% include "foodsite/navbar.html" %}
+  <div class="container">
+    <div class="jumbotron">
+      <div class="flex-center-column">
+        <h1>Request Food</h1>
+        <br>
+        <form method="POST" action="/request">
+          {% csrf_token %}
+          {{ form }}
+          <br><br>
+          <input type="submit" class="btn btn-lg btn-primary" value="Request food">
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
