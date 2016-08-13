@@ -38,12 +38,21 @@ def result(request):
     """
     Make a decision for a meal.
     """
+    def weighted_choice(choices):
+        total = sum(c.number_requests for c in choices)
+        r = random.uniform(0, total)
+        upto = 0
+        for c in choices:
+            if upto + c.number_requests >= r:
+                return c
+            upto += c.number_requests
+        assert False, "Shouldn't get here"
     restaurants = Restaurant.objects.exclude(number_requests=0)
     lenr = len(restaurants)
     if not restaurants:
         return HttpResponse("No restaurants have been requested")
     # select random restaurant from the database
-    restaurant = restaurants[random.randrange(lenr)]
+    restaurant = weighted_choice(restaurants)
     name = restaurant.name
     # set number_requests to 0
     restaurant.number_requests = 0
